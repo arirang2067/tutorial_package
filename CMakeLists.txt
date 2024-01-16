@@ -15,6 +15,10 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
 
+set(ROS2_WS_ROOT $ENV{ROS_WS})
+set(ALICE3_PARAMETERS_PATH "${ROS2_WS_ROOT}/src/alice3_parameters")
+add_definitions(-DALICE3_PARAMETERS_PATH="${ALICE3_PARAMETERS_PATH}")
+
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -33,11 +37,15 @@ ament_target_dependencies(server_node rclcpp tutorial_interfaces)
 add_executable(client_node src/client_node.cpp)
 ament_target_dependencies(client_node rclcpp tutorial_interfaces)
 
+add_executable(get_path src/get_path.cpp)
+ament_target_dependencies(get_path rclcpp std_msgs)
+
 install(TARGETS
   pub_node
   sub_node
   server_node
   client_node
+  get_path
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

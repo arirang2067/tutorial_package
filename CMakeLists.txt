@@ -22,6 +22,7 @@ add_definitions(-DALICE3_PARAMETERS_PATH="${ALICE3_PARAMETERS_PATH}")
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rclcpp_action REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(tutorial_interfaces REQUIRED)
 
@@ -31,11 +32,17 @@ ament_target_dependencies(pub_node rclcpp std_msgs)
 add_executable(sub_node src/sub_node.cpp)
 ament_target_dependencies(sub_node rclcpp std_msgs)
 
-add_executable(server_node src/server_node.cpp)
-ament_target_dependencies(server_node rclcpp tutorial_interfaces)
+add_executable(service_server_node src/service_server_node.cpp)
+ament_target_dependencies(service_server_node rclcpp tutorial_interfaces)
 
-add_executable(client_node src/client_node.cpp)
-ament_target_dependencies(client_node rclcpp tutorial_interfaces)
+add_executable(service_client_node src/service_client_node.cpp)
+ament_target_dependencies(service_client_node rclcpp tutorial_interfaces)
+
+add_executable(action_server_node src/action_server_node.cpp)
+ament_target_dependencies(action_server_node tutorial_interfaces rclcpp rclcpp_action)
+
+add_executable(action_client_node src/action_client_node.cpp)
+ament_target_dependencies(action_client_node tutorial_interfaces rclcpp rclcpp_action)
 
 add_executable(get_path src/get_path.cpp)
 ament_target_dependencies(get_path rclcpp std_msgs)
@@ -43,9 +50,14 @@ ament_target_dependencies(get_path rclcpp std_msgs)
 install(TARGETS
   pub_node
   sub_node
-  server_node
-  client_node
+  service_server_node
+  service_client_node
+  action_server_node
+  action_client_node
   get_path
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

@@ -55,9 +55,6 @@ install(TARGETS
   action_server_node
   action_client_node
   get_path
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION bin
   DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)

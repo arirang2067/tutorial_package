@@ -10,11 +10,11 @@ public:
       : Node("tutorial_subscriber")
   {
     subscription_ = this->create_subscription<std_msgs::msg::String>(
-        "/tutorial/topic", 10, std::bind(&MinimalSubscriber::topic_callback, this, _1));
+        "/tutorial/topic", 10, std::bind(&MinimalSubscriber::TopicCallback, this, _1));
   }
 
 private:
-  void topic_callback(const std_msgs::msg::String::SharedPtr msg) const
+  void TopicCallback(const std_msgs::msg::String::SharedPtr msg) const
   {
     RCLCPP_INFO(this->get_logger(), "I heard: '%s'", msg->data.c_str());
   }
